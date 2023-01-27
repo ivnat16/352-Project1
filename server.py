@@ -27,18 +27,24 @@ def server():
     csockid.send(msg.encode('utf-8'))
 
      # Receive data from the client
-    data_from_client=csockid.recv(100)
-    data = data_from_client.decode('utf-8')
-    #print("[C]: Data received from client: {}".format(data_from_client.decode('utf-8')))
-    datarev = data[::-1]
-    csockid.send(datarev.encode('utf-8'))
-
-    time.sleep(3)
-
+    data_from_client=csockid.recv(200)
     # data_from_client2=csockid.recv(100)
     data2 = data_from_client.decode('utf-8')
     dataup = data2.upper()
     csockid.send(dataup.encode('utf-8'))
+
+    data = data_from_client.decode('utf-8')
+    #print("[C]: Data received from client: {}".format(data_from_client.decode('utf-8')))
+    sentences = data.splitlines()
+    rev=''
+    for i in sentences:
+        rev = rev + i[::-1] +"\n"
+    #datarev = data[::-1]
+    csockid.send(rev.encode('utf-8'))
+
+    time.sleep(5)
+
+
 
 
     # Close the server socket
